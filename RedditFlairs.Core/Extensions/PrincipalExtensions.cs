@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
+﻿using System.Security.Claims;
 
 namespace RedditFlairs.Core.Extensions
 {
@@ -8,8 +6,8 @@ namespace RedditFlairs.Core.Extensions
     {
         public static int GetUserId(this ClaimsPrincipal principal)
         {
-            var id = principal.FindFirst(ClaimTypes.NameIdentifier);
-            return int.Parse(id.Value);
+            var nameId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.TryParse(nameId, out var id) ? id : 0;
         }
     }
 }

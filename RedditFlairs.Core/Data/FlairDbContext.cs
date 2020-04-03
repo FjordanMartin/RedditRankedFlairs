@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using RedditFlairs.Core.Entities;
+using System.Linq;
+using System.Reflection;
 
 namespace RedditFlairs.Core.Data
 {
@@ -43,10 +42,10 @@ namespace RedditFlairs.Core.Data
         public void RemoveRegisteredSummoner(string summonerId, string region)
         {
             var targets = from summoner in Summoners
-                where summoner.Validation.Status == ValidationStatus.Valid
-                      && summoner.SummonerId == summonerId
-                      && summoner.Region == region
-                select summoner;
+                          where summoner.Validation.Status == ValidationStatus.Valid
+                                && summoner.SummonerId == summonerId
+                                && summoner.Region == region
+                          select summoner;
 
             Summoners.RemoveRange(targets);
             SaveChanges();
@@ -55,10 +54,10 @@ namespace RedditFlairs.Core.Data
         public bool UserHasSummoner(int userId, string summonerId, string region)
         {
             var query = from summoner in Summoners
-                where summoner.User.Id == userId
-                      && summoner.SummonerId == summonerId
-                      && summoner.Region == region
-                select summoner;
+                        where summoner.User.Id == userId
+                              && summoner.SummonerId == summonerId
+                              && summoner.Region == region
+                        select summoner;
 
             return query.Any();
         }

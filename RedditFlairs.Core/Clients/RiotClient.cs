@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.Caching.Memory;
+using RiotNet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
-using RiotNet;
 
 namespace RedditFlairs.Core.Clients
 {
@@ -25,10 +25,7 @@ namespace RedditFlairs.Core.Clients
             this.regionalEndpoints =
                 regionalEndpoints.ToDictionary(x => x.Key, x => x.Value, StringComparer.OrdinalIgnoreCase);
 
-            ajrClient = new RiotNet.RiotClient(new RiotClientSettings
-            {
-                ApiKey = apiKey
-            });
+            ajrClient = new TftRiotClient(apiKey);
         }
 
         public Task<string> GetThirdPartyCodeAsync(string region, string encryptedSummonerId)

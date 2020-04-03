@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Hangfire.Server;
+﻿using Hangfire.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -13,6 +8,11 @@ using RedditFlairs.Core.Configuration;
 using RedditFlairs.Core.Data;
 using RedditFlairs.Core.Entities;
 using RedditFlairs.Core.Utility;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace RedditFlairs.Core.Tasks.Implementations
 {
@@ -36,7 +36,7 @@ namespace RedditFlairs.Core.Tasks.Implementations
         {
             if (!config.Enable)
             {
-              throw new TaskAbortedException();
+                throw new TaskAbortedException();
             }
 
             var user = await GetCandidateAsync();
@@ -52,7 +52,7 @@ namespace RedditFlairs.Core.Tasks.Implementations
 
             foreach (var sub in subReddits)
             {
-                await ProcessSubRedditAsync(user, leaguePositions , sub);
+                await ProcessSubRedditAsync(user, leaguePositions, sub);
             }
 
             user.FlairsUpdated = DateTimeOffset.Now;
@@ -75,8 +75,8 @@ namespace RedditFlairs.Core.Tasks.Implementations
         }
 
         private async Task ProcessSubRedditAsync(
-            User user, 
-            ICollection<LeaguePosition> leaguePositions, 
+            User user,
+            ICollection<LeaguePosition> leaguePositions,
             SubReddit subReddit)
         {
             var userFlair = await context
@@ -86,15 +86,16 @@ namespace RedditFlairs.Core.Tasks.Implementations
 
             if (userFlair == null)
             {
-                userFlair = new UserFlair {SubReddit = subReddit, User = user};
+                userFlair = new UserFlair { SubReddit = subReddit, User = user };
                 user.Flairs.Add(userFlair);
             }
 
             var validPositions = rankUtility.Filter(leaguePositions, subReddit.QueueTypes.Split(','));
-            var bestPosition = rankUtility.GetBestPosition(validPositions);
+            //var bestPosition = rankUtility.GetBestPosition(validPositions);
+            var bestPosition = validPositions.First();
 
-            var cssText = rankUtility.Format(bestPosition, subReddit.CssPattern);
-            var flairText = rankUtility.Format(bestPosition, subReddit.FlairPattern);
+            var cssText = $"flair flair-{bestPosition.Rank}";
+            var flairText = $"{bestPosition.Rank} {bestPosition.Tier}";
 
             if (cssText != userFlair.CssText)
             {

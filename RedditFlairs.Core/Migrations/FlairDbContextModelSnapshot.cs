@@ -15,7 +15,7 @@ namespace RedditFlairs.Core.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -124,7 +124,8 @@ namespace RedditFlairs.Core.Migrations
 
                     b.Property<string>("SummonerName");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -169,9 +170,8 @@ namespace RedditFlairs.Core.Migrations
 
             modelBuilder.Entity("RedditFlairs.Core.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTimeOffset?>("FlairsUpdated");
 
@@ -213,7 +213,8 @@ namespace RedditFlairs.Core.Migrations
 
                     b.Property<DateTimeOffset?>("UpdatedAt");
 
-                    b.Property<int>("UserId");
+                    b.Property<string>("UserId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

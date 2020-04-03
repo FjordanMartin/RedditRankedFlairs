@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RedditFlairs.Core.Data;
+using RedditFlairs.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using RedditFlairs.Core.Data;
-using RedditFlairs.Core.Entities;
 
 namespace RedditFlairs.Core.Utility
 {
@@ -53,7 +53,7 @@ namespace RedditFlairs.Core.Utility
         public LeaguePosition GetBestPosition(IEnumerable<LeaguePosition> positions)
         {
             var query = from pos in positions
-                select new {pos, weight = GetPositionOrdinal(pos)};
+                        select new { pos, weight = GetPositionOrdinal(pos) };
 
             return query.OrderByDescending(x => x.weight).FirstOrDefault()?.pos;
         }

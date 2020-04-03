@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using RedditFlairs.Core.Clients;
@@ -11,6 +7,10 @@ using RedditFlairs.Core.Entities;
 using RedditFlairs.Core.Extensions;
 using RedditFlairs.Core.Utility;
 using RedditFlairs.Web.Models;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RedditFlairs.Web.Controllers
 {
@@ -36,7 +36,7 @@ namespace RedditFlairs.Web.Controllers
             // Summoner must exist locally with this id:
             var summoner = context.Summoners.Find(id);
 
-            if(summoner == null) 
+            if (summoner == null)
                 return ApiResult<bool>.FromError("Summoner not found.");
 
             // Summoner must belong to the current principal:
